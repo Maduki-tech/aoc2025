@@ -32,9 +32,29 @@ fn part1(input: &str) -> i32 {
 }
 
 /// Solve part 2 of the puzzle
-fn part2(_: &str) -> i32 {
-    // TODO: Implement part 2
-    0
+fn part2(input: &str) -> i32 {
+    let mut dial = 50;
+    let mut result = 0;
+    for line in input.lines() {
+        let (turn, amount) = line.split_at(1);
+        let amount: i32 = amount.parse().unwrap();
+
+        for _ in 0..amount {
+            match turn {
+                "L" => dial -= 1,
+                "R" => dial += 1,
+                _ => panic!("Invalid turn direction"),
+            }
+
+            dial %= 100;
+
+            if dial == 0 {
+                result += 1;
+            }
+        }
+    }
+
+    result
 }
 
 /// Main entry point for Day 01 solution
@@ -67,8 +87,8 @@ L82";
         assert_eq!(part1(EXAMPLE), 3);
     }
 
-    // #[test]
-    // fn test_part2() {
-    //     assert_eq!(part2(EXAMPLE), 0); // TODO: Update expected value from puzzle
-    // }
+    #[test]
+    fn test_part2() {
+        assert_eq!(part2(EXAMPLE), 6);
+    }
 }
